@@ -1,5 +1,5 @@
 <?php
 
 $config = [
-	"ALLOWABLE_BRACKETS" => [["()"],["[]"],["<>"]],
+	"ALLOWABLE_BRACKETS" => [["()"], ["[]"], ["<>"]],
 ];

@@ -1,11 +1,12 @@
 <?php
 
 /**
- * @throws Exception for empty input
  * @param string $input
+ *
  * @return bool
+ * @throws Exception for empty input
  */
-function stringIsValid (string $input): bool
+function stringIsValid(string $input): bool
 {
 	if (empty($input))
 	{
@@ -23,7 +24,7 @@ function stringIsValid (string $input): bool
 	foreach (str_split($inputOnlyWithBrackets) as $key => $bracket)
 	{
 		//если нашли открывающуюся скобку, то увеличиваем счетчик
-		if($map->hasKey($bracket))
+		if ($map->hasKey($bracket))
 		{
 			$map[$bracket]->add($key);
 		}
@@ -41,7 +42,10 @@ function stringIsValid (string $input): bool
 			if ($lengthBetweenOpenAndCloseBracket !== 1)
 			{
 				$checkBetweenOpenAndCloseBracket = substr(
-					$inputOnlyWithBrackets, $positionOpenPairForCloseBracket + 1, $lengthBetweenOpenAndCloseBracket - 1);
+					$inputOnlyWithBrackets,
+					$positionOpenPairForCloseBracket + 1,
+					$lengthBetweenOpenAndCloseBracket - 1
+				);
 				if (!stringIsValid($checkBetweenOpenAndCloseBracket))
 				{
 					return false;
@@ -51,7 +55,7 @@ function stringIsValid (string $input): bool
 		}
 	}
 
-	$map=$map->toArray();
+	$map = $map->toArray();
 	foreach ($map as $openBracket)
 	{
 		if (!$openBracket->isEmpty())
@@ -65,12 +69,14 @@ function stringIsValid (string $input): bool
 
 function getOpenPairForCloseBracket(string $char): string
 {
-	$charPosition=(stripos(allowableBrackets(), $char));
-	if(!$charPosition){
+	$charPosition = (stripos(allowableBrackets(), $char));
+	if (!$charPosition)
+	{
 		throw new \http\Exception\InvalidArgumentException("Not allowable symbol");
 	}
 
-	$positionPairOpenBracket = $charPosition-1;
+	$positionPairOpenBracket = $charPosition - 1;
+
 	return allowableBrackets()[$positionPairOpenBracket];
 }
 
@@ -78,7 +84,7 @@ function getOpenPairForCloseBracket(string $char): string
  * Если $option = "open", функция вернет лишь открытые скобки
  * Если $option = "closed", функция вернет лишь закрытые скобки
  */
-function allowableBrackets(string $option=""): string
+function allowableBrackets(string $option = ""): string
 {
 	static $config = null;
 
@@ -87,7 +93,7 @@ function allowableBrackets(string $option=""): string
 		require "config.php";
 	}
 
-	$allowableBrackets="";
+	$allowableBrackets = "";
 
 	switch ($option)
 	{
@@ -103,7 +109,7 @@ function allowableBrackets(string $option=""): string
 		{
 			foreach ($config["ALLOWABLE_BRACKETS"] as $value)
 			{
-					$allowableBrackets .= implode($value)[1];
+				$allowableBrackets .= implode($value)[1];
 			}
 			break;
 		}
@@ -111,7 +117,7 @@ function allowableBrackets(string $option=""): string
 		{
 			foreach ($config["ALLOWABLE_BRACKETS"] as $value)
 			{
-				$allowableBrackets.=implode($value);
+				$allowableBrackets .= implode($value);
 			}
 		}
 	}
@@ -124,7 +130,7 @@ function leaveOnlyBrackets(string $input): string
 	$inputOnlyWithBrackets = "";
 	foreach (str_split($input) as $char)
 	{
-		if(stripos(allowableBrackets(), $char) !== false)
+		if (stripos(allowableBrackets(), $char) !== false)
 		{
 			$inputOnlyWithBrackets .= $char;
 		}
